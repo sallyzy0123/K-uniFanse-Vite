@@ -1,6 +1,10 @@
 import { getAllCategoriesQuery } from "../queries/categoryQuery";
 import { api_url } from "../variables/variables";
-import { loginQuery, registerQuery } from "../queries/userQuery";
+import {
+  loginMutation,
+  registerMutation,
+  deleteUserMutation,
+} from "../queries/userQuery";
 import {
   MerchandisesQuery,
   addMerchandiseQuery,
@@ -96,7 +100,7 @@ const useUser = () => {
     try {
       const userResponse = await doGraphQLFetch(
         api_url,
-        registerQuery,
+        registerMutation,
         userCredentials,
         false
       );
@@ -107,7 +111,22 @@ const useUser = () => {
     }
   };
 
-  return { postUser };
+  const deleteUser = async () => {
+    try {
+      const userResponse = await doGraphQLFetch(
+        api_url,
+        deleteUserMutation,
+        {},
+        true
+      );
+      console.log("userResponse:", userResponse.deleteUser);
+      return userResponse.deleteUser;
+    } catch (error) {
+      console.error("deleteUser: ", error);
+    }
+  };
+
+  return { postUser, deleteUser };
 };
 
 const useCategory = () => {
@@ -119,7 +138,6 @@ const useCategory = () => {
         {},
         false
       );
-      // console.log("response,", categoriesResponse.categories);
       return categoriesResponse.categories;
     } catch (error) {
       console.error("getCateogories failed", error);
@@ -135,7 +153,7 @@ const useAuthentication = () => {
     try {
       const loginResponse = await doGraphQLFetch(
         api_url,
-        loginQuery,
+        loginMutation,
         userCredentials,
         false
       );

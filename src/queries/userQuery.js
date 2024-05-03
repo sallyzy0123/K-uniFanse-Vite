@@ -1,4 +1,4 @@
-const loginQuery = `
+const loginMutation = `
 mutation Login($credentials: Credentials!) {
     login(credentials: $credentials) {
       token
@@ -11,7 +11,7 @@ mutation Login($credentials: Credentials!) {
     }
   }`;
 
-const registerQuery = `
+const registerMutation = `
 mutation Register($user: UserInput!) {
     register(user: $user) {
       user {
@@ -23,4 +23,16 @@ mutation Register($user: UserInput!) {
     }
   }`;
 
-export { loginQuery, registerQuery };
+const deleteUserMutation = `
+mutation DeleteUser {
+  deleteUser {
+    user {
+      id
+      user_name
+      email
+    }
+    message
+  }
+}`;
+
+export { loginMutation, registerMutation, deleteUserMutation };

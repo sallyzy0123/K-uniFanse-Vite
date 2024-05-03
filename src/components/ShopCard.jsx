@@ -17,7 +17,7 @@ export default function ShopCard() {
                     <Card.Title className="px-4 pt-2">
                         {merchandise.merchandise_name}
                     </Card.Title>
-                    <Link to={`/shop/${merchandise.id}`}>
+                    <Link to={`/home/shop/${merchandise.id}`}>
                         <Card.Img
                             src={`${image_url}/${merchandise.filename}`}
                             alt={merchandise.merchandise_name}

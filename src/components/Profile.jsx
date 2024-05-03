@@ -39,7 +39,7 @@ export default function Profile () {
     return (
         <div className="profile-page">
             <PurpleButton text="log out" type="button" onClick={handleLogout} />
-            <Link to="/newMerchandise" className="purple-button">Add Merchandise</Link>
+            <Link to="/home/newMerchandise" className="purple-button">Add Merchandise</Link>
             <PurpleButton text="delete My Account" type="button" onClick={handleDeleteAccount} />
             {showModal && <MyModal text="Log out!" />}
         </div>

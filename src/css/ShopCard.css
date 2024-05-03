@@ -1,0 +1,16 @@
+.shop-container {
+    position: relative;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+
+.aspect-ratio-box {
+    aspect-ratio: 1 / 1; 
+    width: 100%;
+}
+
+.single-card-container {
+    position: relative;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+}

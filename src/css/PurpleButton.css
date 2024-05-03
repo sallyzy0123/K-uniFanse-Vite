@@ -1,0 +1,12 @@
+.btn-purple{
+    background-color: #A020F0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    opacity: 0.6;
+    width: 60%;
+}

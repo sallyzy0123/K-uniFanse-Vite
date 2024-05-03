@@ -1,0 +1,12 @@
+.navbar {
+    width: 100%;
+    margin: auto;
+}
+
+.button-hover-black {
+    transition: color 0.3s ease-in-out; 
+}
+  
+.button-hover-black .nav-link span:hover {
+    color: black; 
+}

@@ -16,10 +16,6 @@ mutation AddMerchandise($merchandise: MerchandiseInput!) {
         user_name
         email
       }
-      location {
-        type
-        coordinates
-      }
     }
     message
   }
@@ -42,10 +38,6 @@ query Merchandises {
       user_name
       email
     }
-    location {
-      type
-      coordinates
-    }
   }
 }
 `;
@@ -66,10 +58,6 @@ query Merchandise($merchandiseId: ID!) {
       id
       user_name
       email
-    }
-    location {
-      type
-      coordinates
     }
   }
 }`;

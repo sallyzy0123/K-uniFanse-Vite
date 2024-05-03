@@ -18,22 +18,49 @@ import {
   useNavigation,
   useSubmit,
 } from "react-router-dom";
+import Profile from './components/Profile';
+import NewMerchandise from './components/NewMerchandise';
+import LoginBox from './components/LoginBox';
+import Auth from './routes/Auth';
+import RegisterBox from './components/RegisterBox';
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Auth />,
+    children: [
+      {
+        path: "login",
+        element: <LoginBox />,
+      },
+      {
+        path: "register",
+        element: <RegisterBox />,
+      }
+    ],
+  },
+  {
+    path: "/home",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "/home/shop",
         element: <ShopCard />,
       },
       {
-        path: "/shop/:id",
+        path: "shop/:id",
         element: <SingleCard />,
         loader: SingleLoader,
       },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "newMerchandise",
+        element: <NewMerchandise />,
+      }
     ],
   },
 ]);

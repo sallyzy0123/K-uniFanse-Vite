@@ -59,7 +59,6 @@ const useMerchandise = () => {
   };
 
   const getMerchandise = async (id) => {
-    console.log("id", id);
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
@@ -101,7 +100,7 @@ const useUser = () => {
         userCredentials,
         false
       );
-      console.log("userResponse:", userResponse);
+      console.log("userResponse:", userResponse.register);
       return userResponse.register;
     } catch (error) {
       console.error("postUser: ", error);

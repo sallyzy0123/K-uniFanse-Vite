@@ -27,7 +27,6 @@ export default function ShopCard() {
                     </Link>
                     <Card.Body className="d-flex justify-content-between p-4">
                         <Card.Text>€{merchandise.price}</Card.Text>
-                        <Card.Text>{merchandise.location.coordinates}</Card.Text>
                     </Card.Body>
                 </Card>
                 </div>

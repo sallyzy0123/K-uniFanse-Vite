@@ -6,6 +6,7 @@ import { upload_url } from "../variables/variables";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import MyModal from "./MyModal";
+import { useNavigate } from "react-router-dom";
 
 export default function NewMerchandise () {
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +19,7 @@ export default function NewMerchandise () {
   const [file, setFile] = useState("");
   const { postMerchandise } = useMerchandise();
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   // upload the image to upload server and get the filename
   const uploadImage = async (file) => {
@@ -56,14 +58,15 @@ export default function NewMerchandise () {
       },
     };
     const response = await postMerchandise(merchandise);
-    console.log("response", response);
+
 
     // TODO: add clear if statement here
-    if (response) {
+    if (response.message === "Merchandise created.") {
       setShowModal(true);
 
       setTimeout(() => {
         setShowModal(false);
+        navigate('/home/shop');
       }, 1000); // 1 seconds
 
       // Reset form fields

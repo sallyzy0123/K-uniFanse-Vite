@@ -10,19 +10,12 @@ import ErrorPage from "./error-page";
 import {MainProvider} from './contexts/MainContext';
 import SingleCard, {loader as SingleLoader} from './components/SingleCard';
 import ShopCard from './components/ShopCard';
-import {
-  NavLink,
-  useLoaderData,
-  Form,
-  redirect,
-  useNavigation,
-  useSubmit,
-} from "react-router-dom";
 import Profile from './components/Profile';
 import NewMerchandise from './components/NewMerchandise';
 import LoginBox from './components/LoginBox';
 import Auth from './routes/Auth';
 import RegisterBox from './components/RegisterBox';
+import EditMerchandise from './components/EditMerchandise';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +53,12 @@ const router = createBrowserRouter([
       {
         path: "newMerchandise",
         element: <NewMerchandise />,
-      }
+      },
+      {
+        path: "shop/:id/edit",
+        element: <EditMerchandise />,
+        loader: SingleLoader,
+      },
     ],
   },
 ]);

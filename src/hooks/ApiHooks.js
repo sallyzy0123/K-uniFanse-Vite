@@ -7,8 +7,9 @@ import {
 } from "../queries/userQuery";
 import {
   MerchandisesQuery,
-  addMerchandiseQuery,
+  addMerchandiseMutation,
   MerchandiseQuery,
+  modifyMerchandiseMutation,
 } from "../queries/merchandiseQuery";
 
 const doGraphQLFetch = async (url, query, variables, includeToken) => {
@@ -78,21 +79,41 @@ const useMerchandise = () => {
   };
 
   const postMerchandise = async (merchandise) => {
-    console.log("merchandise:", merchandise);
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
-        addMerchandiseQuery,
+        addMerchandiseMutation,
         merchandise,
         true
       );
       // console.log("merchandiseResponse:", merchandiseResponse);
       return merchandiseResponse.addMerchandise;
     } catch (error) {
-      console.error("postMerchandise: ", error);
+      console.error("postMerchandise failed: ", error);
     }
   };
-  return { getMerchandises, getMerchandise, postMerchandise };
+
+  const updateMerchandise = async (id, merchandise) => {
+    try {
+      const merchandiseResponse = await doGraphQLFetch(
+        api_url,
+        modifyMerchandiseMutation,
+        { modifyMerchandiseId: id, input: merchandise },
+        true
+      );
+      // console.log("merchandiseResponse:", merchandiseResponse);
+      return merchandiseResponse.modifyMerchandise;
+    } catch (error) {
+      console.error("updateMerchandise failed: ", error);
+    }
+  };
+
+  return {
+    getMerchandises,
+    getMerchandise,
+    postMerchandise,
+    updateMerchandise,
+  };
 };
 
 const useUser = () => {

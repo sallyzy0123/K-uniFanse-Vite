@@ -1,4 +1,4 @@
-const addMerchandiseQuery = `
+const addMerchandiseMutation = `
 mutation AddMerchandise($merchandise: MerchandiseInput!) {
   addMerchandise(merchandise: $merchandise) {
     merchandise {
@@ -62,4 +62,32 @@ query Merchandise($merchandiseId: ID!) {
   }
 }`;
 
-export { addMerchandiseQuery, MerchandisesQuery, MerchandiseQuery };
+const modifyMerchandiseMutation = `
+mutation Mutation($input: MerchandiseModify!, $modifyMerchandiseId: ID!) {
+  modifyMerchandise(input: $input, id: $modifyMerchandiseId) {
+    merchandise {
+      id
+      merchandise_name
+      price
+      description
+      filename
+      category {
+        id
+        category_name
+      }
+      owner {
+        id
+        user_name
+        email
+      }
+    }
+    message
+  }
+}`;
+
+export {
+  addMerchandiseMutation,
+  MerchandisesQuery,
+  MerchandiseQuery,
+  modifyMerchandiseMutation,
+};

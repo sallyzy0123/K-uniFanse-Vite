@@ -85,9 +85,33 @@ mutation Mutation($input: MerchandiseModify!, $modifyMerchandiseId: ID!) {
   }
 }`;
 
+const DeleteMerchandiseMutation = `
+mutation DeleteMerchandise($deleteMerchandiseId: ID!) {
+  deleteMerchandise(id: $deleteMerchandiseId) {
+    merchandise {
+      id
+      merchandise_name
+      price
+      description
+      filename
+      category {
+        id
+        category_name
+      }
+      owner {
+        id
+        user_name
+        email
+      }
+    }
+    message
+  }
+}`;
+
 export {
   addMerchandiseMutation,
   MerchandisesQuery,
   MerchandiseQuery,
   modifyMerchandiseMutation,
+  DeleteMerchandiseMutation,
 };

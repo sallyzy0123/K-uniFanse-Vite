@@ -10,6 +10,7 @@ import {
   addMerchandiseMutation,
   MerchandiseQuery,
   modifyMerchandiseMutation,
+  DeleteMerchandiseMutation,
 } from "../queries/merchandiseQuery";
 
 const doGraphQLFetch = async (url, query, variables, includeToken) => {
@@ -108,11 +109,27 @@ const useMerchandise = () => {
     }
   };
 
+  const deleteMerchandise = async (id) => {
+    try {
+      const merchandiseResponse = await doGraphQLFetch(
+        api_url,
+        DeleteMerchandiseMutation,
+        { deleteMerchandiseId: id },
+        true
+      );
+      // console.log("merchandiseResponse:", merchandiseResponse);
+      return merchandiseResponse.deleteMerchandise;
+    } catch (error) {
+      console.error("deleteMerchandise failed: ", error);
+    }
+  };
+
   return {
     getMerchandises,
     getMerchandise,
     postMerchandise,
     updateMerchandise,
+    deleteMerchandise,
   };
 };
 

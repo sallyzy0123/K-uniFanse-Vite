@@ -3,9 +3,10 @@ import { image_url } from "../variables/variables";
 import '../css/ShopCard.css';
 import PurpleButton from "./PurpleButton";
 import { useMerchandise } from "../hooks/ApiHooks";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {MainContext} from "../contexts/MainContext";
+import MyModal from "./MyModal";
 
 export async function loader({params}) {
   const {getMerchandise} = useMerchandise();
@@ -19,6 +20,25 @@ export default function SingleCard() {
   const [isOwnPost, setIsOwnPost] = useState(false);
   console.log('merchandise owner:', merchandise.owner.id);
   console.log('logged in user:', user.id);
+  const {deleteMerchandise} = useMerchandise();
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDeleteMerch = async () => {
+    try {
+        const deleteResponse = await deleteMerchandise(merchandise.id);
+        if (deleteResponse.message === "Merchandise deleted") {
+            setShowModal(true);
+        
+            setTimeout(() => {
+                setShowModal(false);
+                navigate('/home/shop');
+            }, 1000);
+        }
+    } catch (error) {
+        console.error("deleteMerch failed: ", error);
+    }
+  };
 
   useEffect(() => {
     if (merchandise.owner.id === user.id) {
@@ -64,6 +84,7 @@ export default function SingleCard() {
                         <Link to={`/home/shop/${merchandise.id}/edit`}>
                             Edit
                         </Link>
+                        <PurpleButton text="delete" onClick={handleDeleteMerch}/>
                         {/* ) : ( */}
                             <PurpleButton text="Send a message"/>
                         {/* )} */}
@@ -71,6 +92,7 @@ export default function SingleCard() {
                     </div>
                 </Card>
             </Col>
+            {showModal && <MyModal text="Merchandise deleted." />}
         </div>
     )
 };

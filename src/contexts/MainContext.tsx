@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMerchandise } from "../hooks/ApiHooks";
+import { useMerchandise, useUser } from "../hooks/ApiHooks";
 
 type MainContextType = {
   isLoggedIn: boolean;
@@ -30,6 +30,7 @@ const MainProvider = (props: React.PropsWithChildren) => {
   const { getMerchandises } = useMerchandise();
   const [merchandises, setMerchandises] = useState<Merchandise[]>([]);
   const [token, setToken] = useState<string | null>(null);
+  const { checkToken } = useUser();
 
   const fetchMerchandises = async () => {
     try {
@@ -44,6 +45,12 @@ const MainProvider = (props: React.PropsWithChildren) => {
     }
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchMerchandises();
+    }
+  }, [isLoggedIn, user]);
+
   const saveToken = async (token: string | null) => {
     if (!token) {
       await localStorage.removeItem('userToken');
@@ -54,12 +61,28 @@ const MainProvider = (props: React.PropsWithChildren) => {
     setToken(token);
   };
 
+  const getUserByToken = async () => {
+    try {
+      const userResponse = await checkToken();
+      if (userResponse.message !== "Token is valid") {
+        return;
+      };
+      return userResponse.user;
+    } catch (error) {
+      console.error("getUserByToken failed: ", error);
+    }
+  };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchMerchandises();
+    const storedToken = localStorage.getItem('userToken');
+    if (storedToken !== null) {
+      setToken(storedToken);
+      setIsLoggedIn(true);
+      getUserByToken().then((user) => {
+        setUser(user);
+      })
     }
-  }, [isLoggedIn, user]);
+  }, []);
 
   useEffect(() => {
     setIsLoggedIn(token !== null);

@@ -184,7 +184,7 @@ const useUser = () => {
         {},
         true
       );
-      console.log("userResponse:", userResponse.checkToken);
+      // console.log("userResponse:", userResponse.checkToken);
       return userResponse.checkToken;
     } catch (error) {
       console.error("checkToken: ", error);

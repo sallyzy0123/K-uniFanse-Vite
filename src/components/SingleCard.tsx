@@ -4,7 +4,7 @@ import { image_url } from "../variables/variables";
 import '../css/ShopCard.css';
 import PurpleButton from "./PurpleButton";
 import { useMerchandise, useUser } from "../hooks/ApiHooks";
-import { Link, useNavigate, useLoaderData, Params } from "react-router-dom";
+import { useNavigate, useLoaderData, Params } from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {MainContext} from "../contexts/MainContext";
 import MyModal from "./MyModal";
@@ -24,8 +24,8 @@ const SingleCard: React.FC = () => {
 const { merchandise } = useLoaderData() as LoaderData;
   const {user} = useContext(MainContext);
   const [isOwnPost, setIsOwnPost] = useState(false);
-  console.log('merchandise owner:', merchandise);
-//   console.log('logged in user:', user.id);
+//   console.log('merchandise owner:', merchandise.owner.id);
+//   console.log('logged in user:', user?.id);
   const {deleteMerchandise} = useMerchandise();
   const [showModal, setShowModal] = useState(false);
   const [showEditFailModal, setShowEditFailModal] = useState(false);
@@ -103,11 +103,8 @@ const { merchandise } = useLoaderData() as LoaderData;
                     <div className="px-4 pb-4 d-flex justify-content-end">
                         {isOwnPost ? (
                             <>
-                            <PurpleButton text="Edit" onClick={handleEditMerch} />
-                            {/* <Link to={`/home/shop/${merchandise.id}/edit`}>
-                            Edit
-                        </Link> */}
-                        <PurpleButton text="delete" onClick={handleDeleteMerch}/>
+                                <PurpleButton text="Edit" onClick={handleEditMerch} />
+                                <PurpleButton text="delete" onClick={handleDeleteMerch}/>
                             </>
                         ) : (
                             <PurpleButton text="Send a message"/>

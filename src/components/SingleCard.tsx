@@ -3,8 +3,8 @@ import { Col, Card } from "react-bootstrap";
 import { image_url } from "../variables/variables";
 import '../css/ShopCard.css';
 import PurpleButton from "./PurpleButton";
-import { useMerchandise } from "../hooks/ApiHooks";
-import { Link, useNavigate, useLoaderData } from "react-router-dom";
+import { useMerchandise, useUser } from "../hooks/ApiHooks";
+import { Link, useNavigate, useLoaderData, Params } from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {MainContext} from "../contexts/MainContext";
 import MyModal from "./MyModal";
@@ -13,9 +13,10 @@ export type LoaderData = {
     merchandise: Merchandise;
 }
 
-export async function loader({params}: {params: {id: string}}): Promise<LoaderData> {
-  const {getMerchandise} = useMerchandise();
-  const merchandise = await getMerchandise(params.id);
+export async function loader({ params }: { params: Params }): Promise<LoaderData> {
+    const id = params.id ?? "";
+    const {getMerchandise} = useMerchandise();
+  const merchandise = await getMerchandise(id);
   return { merchandise };
 }
 
@@ -23,11 +24,26 @@ const SingleCard: React.FC = () => {
 const { merchandise } = useLoaderData() as LoaderData;
   const {user} = useContext(MainContext);
   const [isOwnPost, setIsOwnPost] = useState(false);
-  console.log('merchandise owner:', merchandise.owner.id);
+  console.log('merchandise owner:', merchandise);
 //   console.log('logged in user:', user.id);
   const {deleteMerchandise} = useMerchandise();
   const [showModal, setShowModal] = useState(false);
+  const [showEditFailModal, setShowEditFailModal] = useState(false);
   const navigate = useNavigate();
+  const { checkToken } = useUser();
+
+  const handleEditMerch = async () => {
+    try {
+        const userResponse = await checkToken();
+        if (userResponse.message === "Token is valid") {
+            navigate(`/home/shop/${merchandise.id}/edit`);
+        } else {
+            setShowEditFailModal(true);
+        }
+    } catch (error) {
+        console.error("checkToken failed: ", error);
+    };
+  };
 
   const handleDeleteMerch = async () => {
     try {
@@ -85,19 +101,23 @@ const { merchandise } = useLoaderData() as LoaderData;
                     <Card.Text className="px-4">€{merchandise.price}</Card.Text>
                     <Card.Text className="px-4">{merchandise.description}</Card.Text>
                     <div className="px-4 pb-4 d-flex justify-content-end">
-                        {/* {isOwnPost ? ( */}
-                        <Link to={`/home/shop/${merchandise.id}/edit`}>
+                        {isOwnPost ? (
+                            <>
+                            <PurpleButton text="Edit" onClick={handleEditMerch} />
+                            {/* <Link to={`/home/shop/${merchandise.id}/edit`}>
                             Edit
-                        </Link>
+                        </Link> */}
                         <PurpleButton text="delete" onClick={handleDeleteMerch}/>
-                        {/* ) : ( */}
+                            </>
+                        ) : (
                             <PurpleButton text="Send a message"/>
-                        {/* )} */}
+                        )}
                         
                     </div>
                 </Card>
             </Col>
             {showModal && <MyModal text="Merchandise deleted." />}
+            {showEditFailModal && <MyModal text="You can't edit this merchandise." />}
         </div>
     )
 };

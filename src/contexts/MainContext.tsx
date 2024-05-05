@@ -8,6 +8,7 @@ type MainContextType = {
   setIsLoggedIn: (value: boolean) => void;
   merchandises: Merchandise[];
   fetchMerchandises: () => void;
+  saveToken: (key: string | null) => void;
 }
 
 const defaultContext: MainContextType = {
@@ -17,6 +18,7 @@ const defaultContext: MainContextType = {
   setIsLoggedIn: () => {},
   merchandises: [],
   fetchMerchandises: () => {},
+  saveToken: () => {},
 };
 
 
@@ -27,6 +29,7 @@ const MainProvider = (props: React.PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
   const { getMerchandises } = useMerchandise();
   const [merchandises, setMerchandises] = useState<Merchandise[]>([]);
+  const [token, setToken] = useState<string | null>(null);
 
   const fetchMerchandises = async () => {
     try {
@@ -41,9 +44,26 @@ const MainProvider = (props: React.PropsWithChildren) => {
     }
   };
 
+  const saveToken = async (token: string | null) => {
+    if (!token) {
+      await localStorage.removeItem('userToken');
+      setToken(null);
+      return;
+    }
+    await localStorage.setItem('userToken', token);
+    setToken(token);
+  };
+
+
   useEffect(() => {
-    fetchMerchandises();
-  }, []);
+    if (isLoggedIn) {
+      fetchMerchandises();
+    }
+  }, [isLoggedIn, user]);
+
+  useEffect(() => {
+    setIsLoggedIn(token !== null);
+  }, [token]);
 
   const value: MainContextType = {
     isLoggedIn,
@@ -52,6 +72,7 @@ const MainProvider = (props: React.PropsWithChildren) => {
     setIsLoggedIn,
     merchandises,
     fetchMerchandises,
+    saveToken,
   };
 
   return (

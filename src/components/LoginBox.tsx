@@ -18,7 +18,7 @@ function LoginBox() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { postLogin } = useAuthentication();
-  const { setIsLoggedIn, setUser } = useContext(MainContext);
+  const { setIsLoggedIn, setUser, saveToken } = useContext(MainContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -37,6 +37,7 @@ function LoginBox() {
       await localStorage.setItem("userToken", loginToken);
       setUser(loginResponse.user);
       setIsLoggedIn(true);
+      saveToken(loginToken);
       setShowModal(true);
       setTimeout(() => {
         navigate("/home/shop");

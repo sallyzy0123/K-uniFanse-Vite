@@ -4,6 +4,7 @@ import {
   loginMutation,
   registerMutation,
   deleteUserMutation,
+  checkTokenQuery,
 } from "../queries/userQuery";
 import {
   MerchandisesQuery,
@@ -168,14 +169,29 @@ const useUser = () => {
         {},
         true
       );
-      console.log("userResponse:", userResponse.deleteUser);
+      // console.log("userResponse:", userResponse.deleteUser);
       return userResponse.deleteUser;
     } catch (error) {
       console.error("deleteUser: ", error);
     }
   };
 
-  return { postUser, deleteUser };
+  const checkToken = async () => {
+    try {
+      const userResponse = await doGraphQLFetch(
+        api_url,
+        checkTokenQuery,
+        {},
+        true
+      );
+      console.log("userResponse:", userResponse.checkToken);
+      return userResponse.checkToken;
+    } catch (error) {
+      console.error("checkToken: ", error);
+    }
+  };
+
+  return { postUser, deleteUser, checkToken };
 };
 
 const useCategory = () => {

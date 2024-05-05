@@ -35,4 +35,16 @@ mutation DeleteUser {
   }
 }`;
 
-export { loginMutation, registerMutation, deleteUserMutation };
+const checkTokenQuery = `
+query CheckToken {
+  checkToken {
+    user {
+      id
+      user_name
+      email
+    }
+    message
+  }
+}`;
+
+export { loginMutation, registerMutation, deleteUserMutation, checkTokenQuery };

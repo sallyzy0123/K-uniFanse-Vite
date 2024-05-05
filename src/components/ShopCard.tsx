@@ -5,9 +5,30 @@ import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { Link } from "react-router-dom";
 import '../css/ShopCard.css';
+import { io, Socket } from "socket.io-client";
+import { ClientToServerEvents, ServerToClientEvents } from '../types/Socket';
 
 export default function ShopCard() {
-    const { merchandises } = useContext(MainContext);
+    const { merchandises, fetchMerchandises } = useContext(MainContext);
+
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+        import.meta.env.VITE_SOCKET_URL
+    );
+
+    socket.on("addMerchandise", (message) => {
+        console.log("message: ", message);
+        fetchMerchandises();
+    });
+
+    socket.on("modifyMerchandise", (message) => {
+        console.log("message: ", message);
+        fetchMerchandises();
+    });
+
+    socket.on("deleteMerchandise", (message) => {
+        console.log("message: ", message);
+        fetchMerchandises();
+    });
 
     return (
         <div className="shop-container d-flex flex-row gap-5 flex-wrap justify-content-around pt-3">

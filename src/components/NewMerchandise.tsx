@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCategory, useMerchandise } from "../hooks/ApiHooks";
@@ -8,21 +9,31 @@ import Col from "react-bootstrap/Col";
 import MyModal from "./MyModal";
 import { useNavigate } from "react-router-dom";
 
+export type MerchandiseInput = {
+  merchandise: {
+    merchandise_name: string;
+    description: string;
+    price: number;
+    category: string;
+    filename: string;
+  };
+};
+
 export default function NewMerchandise () {
   const [showModal, setShowModal] = useState(false);
   const { getCategories } = useCategory();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [merchandiseName, setMerchandiseName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const { postMerchandise } = useMerchandise();
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   // upload the image to upload server and get the filename
-  const uploadImage = async (file) => {
+  const uploadImage = async (file: File) => {
     const token = localStorage.getItem("userToken");
     const formData = new FormData();
     formData.append("merch", file);
@@ -40,15 +51,18 @@ export default function NewMerchandise () {
   };
 
   // post the merchandise via graphql sesrver to the database
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!file) {
+      return;
+    }
     const filenameResponse = await uploadImage(file);
     const filename = filenameResponse.data.filename;
     const priceNumber = parseFloat(price);
 
     // TODO: add the map for the location
-    const merchandise = {
+    const merchandise: MerchandiseInput = {
       merchandise: {
         merchandise_name: merchandiseName,
         description,
@@ -74,7 +88,9 @@ export default function NewMerchandise () {
       setDescription("");
       setPrice("");
       setCategory("");
-      fileInputRef.current.value = "";
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
     
   };
@@ -160,7 +176,7 @@ export default function NewMerchandise () {
                   <Form.Control
                     type="file"
                     ref={fileInputRef}
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] || null)}
                   />
               </Form.Group>
               <Button variant="primary" type="submit">

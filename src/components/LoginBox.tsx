@@ -1,3 +1,4 @@
+import React from "react";
 import { Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import PurpleButton from "./PurpleButton";
@@ -5,6 +6,13 @@ import { useContext, useState } from "react";
 import { useAuthentication } from "../hooks/ApiHooks";
 import { MainContext } from "../contexts/MainContext";
 import MyModal from "./MyModal";
+
+export type LoginData = {
+  credentials: {
+    username: string;
+    password: string;
+  }
+}
 
 function LoginBox() {
   const [email, setEmail] = useState("");
@@ -14,10 +22,10 @@ function LoginBox() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userCredentials = {
+      const userCredentials: LoginData = {
         credentials: {
           username: email,
           password: password,

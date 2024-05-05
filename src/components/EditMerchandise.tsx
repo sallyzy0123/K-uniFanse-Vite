@@ -1,3 +1,4 @@
+import React, {FormEvent} from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useCategory, useMerchandise } from "../hooks/ApiHooks";
@@ -6,26 +7,27 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import MyModal from "./MyModal";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import {LoaderData} from "./SingleCard";
 
 export default function EditMerchandise () {
   const [showModal, setShowModal] = useState(false);
   const { getCategories } = useCategory();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const { updateMerchandise } = useMerchandise();
   const [updatedMerch, setUpdatedMerch] = useState({
     merchandise_name: "",
     description: "",
-    price: "",
+    price: 0,
     category: "",
   })
-  const {merchandise} = useLoaderData();
+  const {merchandise} = useLoaderData() as LoaderData;
   const navigate = useNavigate();
 
   // post the merchandise via graphql sesrver to the database
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const priceNumber = parseFloat(updatedMerch.price);
+    const priceNumber = updatedMerch.price;
     const merchandiseData = {
         merchandise_name: updatedMerch.merchandise_name,
         description: updatedMerch.description,
@@ -48,7 +50,7 @@ export default function EditMerchandise () {
     }
   };
 
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("Category changed:", e.target.value);
     setUpdatedMerch({
       ...updatedMerch,
@@ -56,15 +58,16 @@ export default function EditMerchandise () {
     });
   };
 
-  const handlePriceChange = (e) => {
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Price changed:", e.target.value);
+    const priceValue = parseFloat(e.target.value);
     setUpdatedMerch({
       ...updatedMerch,
-      price: e.target.value,
+      price: priceValue,
     });
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Description changed:", e.target.value);
     setUpdatedMerch({
       ...updatedMerch,
@@ -72,7 +75,7 @@ export default function EditMerchandise () {
     });
   };
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("Name changed:", e.target.value);
     setUpdatedMerch({
       ...updatedMerch,
@@ -86,7 +89,7 @@ export default function EditMerchandise () {
       setCategories(categories);
       return categories;
     } catch (error) {
-      console.log("fetchHeroes in chatList error: ", error);
+      console.log("fetchCategories error: ", error);
     }
   };
 
@@ -99,7 +102,7 @@ export default function EditMerchandise () {
         merchandise_name: merchandise.merchandise_name,
         description: merchandise.description,
         price: merchandise.price,
-        category: merchandise.category.id,
+        category: (merchandise.category as Category).id,
     })
   }, [merchandise])
 

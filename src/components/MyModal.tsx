@@ -1,6 +1,11 @@
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 
-export default function MyModal({ text }) {
+type MyModalProps = {
+  text: string;
+};
+
+const MyModal: React.FC<MyModalProps> = ({ text }) => {
   return (
     <>
       <Modal show={true}>
@@ -9,3 +14,5 @@ export default function MyModal({ text }) {
     </>
   );
 };
+
+export default MyModal;

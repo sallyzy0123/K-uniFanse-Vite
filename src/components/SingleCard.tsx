@@ -1,25 +1,30 @@
+import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { image_url } from "../variables/variables";
 import '../css/ShopCard.css';
 import PurpleButton from "./PurpleButton";
 import { useMerchandise } from "../hooks/ApiHooks";
-import { useLoaderData, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLoaderData } from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {MainContext} from "../contexts/MainContext";
 import MyModal from "./MyModal";
 
-export async function loader({params}) {
+export type LoaderData = {
+    merchandise: Merchandise;
+}
+
+export async function loader({params}: {params: {id: string}}): Promise<LoaderData> {
   const {getMerchandise} = useMerchandise();
   const merchandise = await getMerchandise(params.id);
   return { merchandise };
 }
 
-export default function SingleCard() {
-  const {merchandise} = useLoaderData();
+const SingleCard: React.FC = () => {
+const { merchandise } = useLoaderData() as LoaderData;
   const {user} = useContext(MainContext);
   const [isOwnPost, setIsOwnPost] = useState(false);
   console.log('merchandise owner:', merchandise.owner.id);
-  console.log('logged in user:', user.id);
+//   console.log('logged in user:', user.id);
   const {deleteMerchandise} = useMerchandise();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -41,7 +46,7 @@ export default function SingleCard() {
   };
 
   useEffect(() => {
-    if (merchandise.owner.id === user.id) {
+    if (user && merchandise.owner.id === user.id) {
       setIsOwnPost(true);
     }
   }, [])
@@ -75,7 +80,7 @@ export default function SingleCard() {
                         src={`${image_url}/${merchandise.filename}`}
                         alt={merchandise.merchandise_name}
                         className="px-4 pb-3 aspect-ratio-box"
-                        fluid="true"
+                        // fluid="true"
                     />
                     <Card.Text className="px-4">€{merchandise.price}</Card.Text>
                     <Card.Text className="px-4">{merchandise.description}</Card.Text>
@@ -96,3 +101,5 @@ export default function SingleCard() {
         </div>
     )
 };
+
+export default SingleCard;

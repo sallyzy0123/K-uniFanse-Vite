@@ -1,9 +1,18 @@
+import React from "react";
 import { Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import PurpleButton from "./PurpleButton";
 import { useUser } from "../hooks/ApiHooks";
 import { useState } from "react";
 import MyModal from "./MyModal";
+
+export type RegisterData = {
+  user: {
+    user_name: string;
+    email: string;
+    password: string;
+  }
+}
 
 function RegisterBox() {
   const [email, setEmail] = useState("");
@@ -13,10 +22,10 @@ function RegisterBox() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userCredentials = {
+      const userCredentials: RegisterData = {
         user: {
           user_name: username,
           email: email,

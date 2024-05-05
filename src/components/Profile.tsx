@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext, useState } from "react";
 import PurpleButton from "./PurpleButton";
 import { MainContext } from "../contexts/MainContext";

@@ -12,9 +12,17 @@ import {
   modifyMerchandiseMutation,
   DeleteMerchandiseMutation,
 } from "../queries/merchandiseQuery";
+import {LoginData} from "../components/LoginBox";
+import {RegisterData} from "../components/RegisterBox";
+import {MerchandiseInput} from "../components/NewMerchandise";
 
-const doGraphQLFetch = async (url, query, variables, includeToken) => {
-  let headers = {
+const doGraphQLFetch = async (
+  url: string, 
+  query: string, 
+  variables: object, 
+  includeToken: boolean
+) => {
+  let headers: HeadersInit = {
     "Content-Type": "application/json",
   };
 
@@ -44,7 +52,7 @@ const doGraphQLFetch = async (url, query, variables, includeToken) => {
 
     return json.data;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error((error as Error).message);
   }
 };
 
@@ -64,7 +72,7 @@ const useMerchandise = () => {
     }
   };
 
-  const getMerchandise = async (id) => {
+  const getMerchandise = async (id: string) => {
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
@@ -79,7 +87,7 @@ const useMerchandise = () => {
     }
   };
 
-  const postMerchandise = async (merchandise) => {
+  const postMerchandise = async (merchandise: MerchandiseInput) => {
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
@@ -94,7 +102,10 @@ const useMerchandise = () => {
     }
   };
 
-  const updateMerchandise = async (id, merchandise) => {
+  const updateMerchandise = async (
+    id: string, 
+    merchandise: Pick<Merchandise, 'merchandise_name' | 'description' | 'price' | 'category'>
+  ) => {
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
@@ -109,7 +120,7 @@ const useMerchandise = () => {
     }
   };
 
-  const deleteMerchandise = async (id) => {
+  const deleteMerchandise = async (id: string) => {
     try {
       const merchandiseResponse = await doGraphQLFetch(
         api_url,
@@ -134,7 +145,7 @@ const useMerchandise = () => {
 };
 
 const useUser = () => {
-  const postUser = async (userCredentials) => {
+  const postUser = async (userCredentials: RegisterData) => {
     try {
       const userResponse = await doGraphQLFetch(
         api_url,
@@ -176,18 +187,18 @@ const useCategory = () => {
         {},
         false
       );
+      console.log("categoriesResponse:", categoriesResponse);
       return categoriesResponse.categories;
     } catch (error) {
       console.error("getCateogories failed", error);
     }
-    return null;
   };
 
   return { getCategories };
 };
 
 const useAuthentication = () => {
-  const postLogin = async (userCredentials) => {
+  const postLogin = async (userCredentials: LoginData) => {
     try {
       const loginResponse = await doGraphQLFetch(
         api_url,

@@ -22,7 +22,7 @@ export default function ShopCard() {
                             src={`${image_url}/${merchandise.filename}`}
                             alt={merchandise.merchandise_name}
                             className="px-4 aspect-ratio-box"
-                            fluid="true"
+                            // fluid="true"
                         />
                     </Link>
                     <Card.Body className="d-flex justify-content-between p-4">

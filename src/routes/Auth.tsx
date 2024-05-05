@@ -1,17 +1,8 @@
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
-import { useState } from "react";
 import {Outlet} from "react-router-dom";
 
 export default function Auth () {
-    const [showModal, setShowModal] = useState(false);
-
-    const handleShowModal = () => {
-        setShowModal(true);
-        setTimeout(() => {
-            setShowModal(false);
-        }, 1000); // 1 seconds
-    };
 
     return (
         <Container fluid

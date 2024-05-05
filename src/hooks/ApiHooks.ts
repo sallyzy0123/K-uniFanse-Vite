@@ -5,6 +5,7 @@ import {
   registerMutation,
   deleteUserMutation,
   checkTokenQuery,
+  updateUserMutation,
 } from "../queries/userQuery";
 import {
   MerchandisesQuery,
@@ -16,6 +17,7 @@ import {
 import {LoginData} from "../components/LoginBox";
 import {RegisterData} from "../components/RegisterBox";
 import {MerchandiseInput} from "../components/NewMerchandise";
+import {UserData} from "../components/EditAccount";
 
 const doGraphQLFetch = async (
   url: string, 
@@ -157,7 +159,22 @@ const useUser = () => {
       console.log("userResponse:", userResponse.register);
       return userResponse.register;
     } catch (error) {
-      console.error("postUser: ", error);
+      console.error("postUser error: ", error);
+    }
+  };
+
+  const updateUser = async (userData: UserData) => {
+    try {
+      const userResponse = await doGraphQLFetch(
+        api_url,
+        updateUserMutation,
+        userData,
+        true
+      );
+      console.log("userResponse:", userResponse.updateUser);
+      return userResponse.updateUser;
+    } catch (error) {
+      console.error("updateUser error: ", error);
     }
   };
 
@@ -191,7 +208,7 @@ const useUser = () => {
     }
   };
 
-  return { postUser, deleteUser, checkToken };
+  return { postUser, updateUser, deleteUser, checkToken };
 };
 
 const useCategory = () => {

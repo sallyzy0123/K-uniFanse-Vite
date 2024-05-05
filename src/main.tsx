@@ -16,6 +16,7 @@ import LoginBox from './components/LoginBox';
 import Auth from './routes/Auth';
 import RegisterBox from './components/RegisterBox';
 import EditMerchandise from './components/EditMerchandise';
+import EditAccount from './components/EditAccount';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
         element: <EditMerchandise />,
         loader: SingleLoader,
       },
+      {
+        path: "profile/edit",
+        element: <EditAccount />,
+      }
     ],
   },
 ]);

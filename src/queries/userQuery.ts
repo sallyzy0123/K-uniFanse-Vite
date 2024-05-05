@@ -47,4 +47,16 @@ query CheckToken {
   }
 }`;
 
-export { loginMutation, registerMutation, deleteUserMutation, checkTokenQuery };
+const updateUserMutation = `
+mutation UpdateUser($user: UserModifyInput!) {
+  updateUser(user: $user) {
+    user {
+      id
+      user_name
+      email
+    }
+    message
+  }
+}`;
+
+export { loginMutation, registerMutation, deleteUserMutation, checkTokenQuery, updateUserMutation };

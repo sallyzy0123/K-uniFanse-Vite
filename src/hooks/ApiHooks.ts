@@ -13,6 +13,7 @@ import {
   MerchandiseQuery,
   modifyMerchandiseMutation,
   DeleteMerchandiseMutation,
+  MerchandisesByOwnerQuery,
 } from "../queries/merchandiseQuery";
 import {LoginData} from "../components/LoginBox";
 import {RegisterData} from "../components/RegisterBox";
@@ -90,6 +91,21 @@ const useMerchandise = () => {
     }
   };
 
+  const getMerchandisesByUser = async () => {
+    try {
+      const merchandiseResponse = await doGraphQLFetch(
+        api_url,
+        MerchandisesByOwnerQuery,
+        {},
+        true
+      );
+      console.log("response,", merchandiseResponse.merchandisesByOwner);
+      return merchandiseResponse.merchandisesByOwner;
+    } catch (error) {
+      console.error("getMerchandiseByUser failed", error);
+    }
+  };
+
   const postMerchandise = async (merchandise: MerchandiseInput) => {
     try {
       const merchandiseResponse = await doGraphQLFetch(
@@ -141,6 +157,7 @@ const useMerchandise = () => {
   return {
     getMerchandises,
     getMerchandise,
+    getMerchandisesByUser,
     postMerchandise,
     updateMerchandise,
     deleteMerchandise,

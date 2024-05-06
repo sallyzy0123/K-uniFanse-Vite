@@ -1,5 +1,5 @@
 import React from "react";
-import { Card} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { image_url } from "../variables/variables";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";

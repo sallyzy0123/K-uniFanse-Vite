@@ -14,8 +14,8 @@ export type LoaderData = {
 }
 
 export async function loader({ params }: { params: Params }): Promise<LoaderData> {
-    const id = params.id ?? "";
-    const {getMerchandise} = useMerchandise();
+  const id = params.id ?? "";
+  const {getMerchandise} = useMerchandise();
   const merchandise = await getMerchandise(id);
   return { merchandise };
 }

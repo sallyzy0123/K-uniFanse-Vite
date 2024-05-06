@@ -108,10 +108,31 @@ mutation DeleteMerchandise($deleteMerchandiseId: ID!) {
   }
 }`;
 
+const MerchandisesByOwnerQuery = `
+query MerchandisesByOwner {
+  merchandisesByOwner {
+    id
+    merchandise_name
+    price
+    description
+    filename
+    category {
+      id
+      category_name
+    }
+    owner {
+      id
+      user_name
+      email
+    }
+  }
+}`;
+
 export {
   addMerchandiseMutation,
   MerchandisesQuery,
   MerchandiseQuery,
   modifyMerchandiseMutation,
   DeleteMerchandiseMutation,
+  MerchandisesByOwnerQuery,
 };

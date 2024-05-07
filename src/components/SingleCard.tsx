@@ -8,6 +8,7 @@ import { useNavigate, useLoaderData, Params } from "react-router-dom";
 import {useContext, useState, useEffect} from "react";
 import {MainContext} from "../contexts/MainContext";
 import MyModal from "./MyModal";
+import {useChat} from "../hooks/chatHooks";
 
 export type LoaderData = {
     merchandise: Merchandise;
@@ -31,6 +32,19 @@ const { merchandise } = useLoaderData() as LoaderData;
   const [showEditFailModal, setShowEditFailModal] = useState(false);
   const navigate = useNavigate();
   const { checkToken } = useUser();
+  const { createChatRoom } = useChat();
+
+  const handleNaviChatRoom = async () => {
+    try {
+        const chatResponse = await createChatRoom((user as User).id, merchandise.owner.id);
+        if (chatResponse._id) {
+            const chatId = chatResponse._id;
+            navigate(`/home/shop/message/${chatId}`);
+        }
+    } catch (error) {
+        console.error("createChatRoom failed: ", error);
+    };
+  };
 
   const handleEditMerch = async () => {
     try {
@@ -107,7 +121,7 @@ const { merchandise } = useLoaderData() as LoaderData;
                                 <PurpleButton text="delete" onClick={handleDeleteMerch}/>
                             </>
                         ) : (
-                            <PurpleButton text="Send a message"/>
+                            <PurpleButton text="Send a message" onClick={handleNaviChatRoom}/>
                         )}
                         
                     </div>

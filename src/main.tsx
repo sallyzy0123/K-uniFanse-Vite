@@ -17,6 +17,7 @@ import Auth from './routes/Auth';
 import RegisterBox from './components/RegisterBox';
 import EditMerchandise from './components/EditMerchandise';
 import EditAccount from './components/EditAccount';
+import MessageBox from './components/MessageBox';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: "shop/:id",
         element: <SingleCard />,
         loader: SingleLoader,
+      },
+      {
+        path: "shop/message/:chatId",
+        element: <MessageBox />,
       },
       {
         path: "profile",

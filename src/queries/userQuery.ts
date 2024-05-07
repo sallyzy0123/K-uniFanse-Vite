@@ -59,4 +59,13 @@ mutation UpdateUser($user: UserModifyInput!) {
   }
 }`;
 
-export { loginMutation, registerMutation, deleteUserMutation, checkTokenQuery, updateUserMutation };
+const userQuery = `
+query User($userId: ID!) {
+  user(id: $userId) {
+    id
+    user_name
+    email
+  }
+}`;
+
+export { loginMutation, registerMutation, deleteUserMutation, checkTokenQuery, updateUserMutation, userQuery };

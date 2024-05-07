@@ -6,6 +6,7 @@ import {
   deleteUserMutation,
   checkTokenQuery,
   updateUserMutation,
+  userQuery,
 } from "../queries/userQuery";
 import {
   MerchandisesQuery,
@@ -225,7 +226,22 @@ const useUser = () => {
     }
   };
 
-  return { postUser, updateUser, deleteUser, checkToken };
+  const getUserById = async (id: string) => {
+    try {
+      const userResponse = await doGraphQLFetch(
+        api_url,
+        userQuery,
+        { userId: id },
+        false
+      );
+      // console.log("userResponse:", userResponse);
+      return userResponse.user;
+    } catch (error) {
+      console.error("getUserById error: ", error);
+    };
+  };
+
+  return { postUser, updateUser, deleteUser, checkToken, getUserById};
 };
 
 const useCategory = () => {

@@ -68,5 +68,6 @@ jobs:
         with:
           app-name: 'yingzh-kunifanse-vite'
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: .
           

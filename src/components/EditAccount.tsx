@@ -17,7 +17,7 @@ export type UserData = {
 
 export default function EditAccount () {
   const [showModal, setShowModal] = useState(false);
-  const {user} = useContext(MainContext);
+  const {user, setUser} = useContext(MainContext);
   const { updateUser } = useUser();
   const [updatedUser, setUpdatedUser] = useState({
     user_name: "",
@@ -36,8 +36,10 @@ export default function EditAccount () {
     };
     try {
         const response = await updateUser(userData);
+        
 
         if (response.message === "User updated") {
+            setUser(response.user);
             setShowModal(true);
         
             setTimeout(() => {

@@ -18,6 +18,7 @@ export default function Profile () {
     const [showModal, setShowModal] = useState(false);
     const { getMerchandisesByUser } = useMerchandise();
     const [ownerMerch, setOwnerMerch] = useState<Merchandise[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchMerchByOwner = async () => {
         try {
@@ -26,6 +27,8 @@ export default function Profile () {
             setOwnerMerch(merchResponse);
         } catch (error) {
             console.error("fetchMerchByOwner: ", error);
+        }  finally {
+            setLoading(false);
         }
     };
 
@@ -100,7 +103,10 @@ export default function Profile () {
                     </Col>
                 </Row>
                 <hr style={{ backgroundColor: "black", height: 5 }}/>
-                <Row>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+<Row>
                     {ownerMerch.map((merch) => (
                         <div key={merch.id} className="col-lg-2 col-md-4 col-sm-3">
                             <Card className="border-0 rounded-5 shadow-sm">
@@ -122,6 +128,8 @@ export default function Profile () {
                         </div>
                     ))}
                 </Row>
+                )}
+                
             </Row>
             {showModal && <MyModal text="Log out!" />}
         </Container>

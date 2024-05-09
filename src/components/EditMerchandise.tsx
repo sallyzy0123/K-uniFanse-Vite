@@ -42,8 +42,8 @@ export default function EditMerchandise () {
         
             setTimeout(() => {
                 setShowModal(false);
-                navigate(`/home/shop/${merchandise.id}`);
             }, 1000); 
+            navigate(`/home/shop/${merchandise.id}`);
         }
     } catch (error) {
         console.log("handleSubmit in EditMerchandise error: ", error);

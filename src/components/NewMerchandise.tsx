@@ -80,7 +80,7 @@ export default function NewMerchandise () {
 
       setTimeout(() => {
         setShowModal(false);
-        navigate('/home/shop');
+        navigate('/K-uniFanse-Vite/home/shop');
       }, 1000); // 1 seconds
 
       // Reset form fields

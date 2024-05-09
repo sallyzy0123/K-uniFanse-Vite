@@ -38,7 +38,7 @@ function RegisterBox() {
         console.log("Register successful:", registerResponse);
         setTimeout(() => {
           setShowModal(false);
-          navigate("/login");
+          navigate("/K-uniFanse-Vite/");
         }, 1000);
 
       }
@@ -86,7 +86,7 @@ function RegisterBox() {
         <Form.Text className="d-inline-flex align-items-center">
           Have the account? &nbsp;
           <Link
-            to="/login"
+            to="/K-uniFanse-Vite/"
             className="text-decoration-none text-purple fw-bold"
           >
             Login

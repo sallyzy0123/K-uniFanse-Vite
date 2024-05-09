@@ -36,7 +36,7 @@ const { merchandise } = useLoaderData() as LoaderData;
     try {
         const userResponse = await checkToken();
         if (userResponse.message === "Token is valid") {
-            navigate(`/home/shop/${merchandise.id}/edit`);
+            navigate(`/K-uniFanse-Vite/home/shop/${merchandise.id}/edit`);
         } else {
             setShowEditFailModal(true);
         }
@@ -53,7 +53,7 @@ const { merchandise } = useLoaderData() as LoaderData;
         
             setTimeout(() => {
                 setShowModal(false);
-                navigate('/home/shop');
+                navigate('/K-uniFanse-Vite/home/shop');
             }, 1000);
         }
     } catch (error) {

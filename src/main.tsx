@@ -20,48 +20,48 @@ import EditAccount from './components/EditAccount';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/K-uniFanse-Vite/",
     element: <Auth />,
     children: [
       {
-        path: "login",
+        path: "/K-uniFanse-Vite/",
         element: <LoginBox />,
       },
       {
-        path: "register",
+        path: "/K-uniFanse-Vite/register",
         element: <RegisterBox />,
       }
     ],
   },
   {
-    path: "/home",
+    path: "/K-uniFanse-Vite/home",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "shop",
+        path: "/K-uniFanse-Vite/home/shop",
         element: <ShopCard />,
       },
       {
-        path: "shop/:id",
+        path: "/K-uniFanse-Vite/home/shop/:id",
         element: <SingleCard />,
         loader: SingleLoader,
       },
       {
-        path: "profile",
+        path: "/K-uniFanse-Vite/home/profile",
         element: <Profile />,
       },
       {
-        path: "newMerchandise",
+        path: "/K-uniFanse-Vite/home/newMerchandise",
         element: <NewMerchandise />,
       },
       {
-        path: "shop/:id/edit",
+        path: "/K-uniFanse-Vite/home/shop/:id/edit",
         element: <EditMerchandise />,
         loader: SingleLoader,
       },
       {
-        path: "profile/edit",
+        path: "/K-uniFanse-Vite/home/profile/edit",
         element: <EditAccount />,
       }
     ],

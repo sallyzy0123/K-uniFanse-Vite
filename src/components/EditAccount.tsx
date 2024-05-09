@@ -44,7 +44,7 @@ export default function EditAccount () {
         
             setTimeout(() => {
                 setShowModal(false);
-                navigate(`/home/profile`);
+                navigate(`/K-uniFanse-Vite/home/profile`);
             }, 1000); 
         }
     } catch (error) {

@@ -37,11 +37,11 @@ export default function Profile () {
     }, []);
 
     const handleAddNewMerch = () => {
-        navigate("/home/newMerchandise")
+        navigate("/K-uniFanse-Vite/home/newMerchandise")
     };
 
     const handleEditAccount = () => {
-        navigate("/home/profile/edit");
+        navigate("/K-uniFanse-Vite/home/profile/edit");
     };
 
     const handleDeleteAccount = async () => {
@@ -52,7 +52,7 @@ export default function Profile () {
             if (userResponse.message === "User deleted") {
                 await localStorage.removeItem("userToken");
                 setIsLoggedIn(false);
-                navigate("/login");
+                navigate("/K-uniFanse-Vite/");
             }
         } catch (error) {
             console.error("deleteUser: ", error);
@@ -65,7 +65,7 @@ export default function Profile () {
         setIsLoggedIn(false);
         setShowModal(true);
         setTimeout(() => {
-            navigate("/login"); 
+            navigate("/K-uniFanse-Vite/"); 
         }, 1000);
     };
 

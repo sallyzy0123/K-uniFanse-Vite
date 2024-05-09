@@ -106,7 +106,7 @@ export default function Profile () {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-<Row>
+                <Row>
                     {ownerMerch.map((merch) => (
                         <div key={merch.id} className="col-lg-2 col-md-4 col-sm-3">
                             <Card className="border-0 rounded-5 shadow-sm">

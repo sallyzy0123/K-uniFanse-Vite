@@ -70,10 +70,10 @@ export default function Profile () {
     };
 
     return (
-        <Container fluid
-            className="d-flex flex-row justify-content-around align-items-center fw-bold my-5 "
+        <Container
+            className="lg-8 md-8 sm-8 d-flex flex-row justify-content-around align-items-center fw-bold my-5 "
         >
-            <Row md={8} lg={8} className="bg-light text-black p-5 rounded-5 gap-3">
+            <Row className="bg-light text-black p-5 rounded-5 gap-3">
                 <Col className="d-flex justify-content-between gap-5">
                     <div>
                         <svg
@@ -109,22 +109,24 @@ export default function Profile () {
                 <Row>
                     {ownerMerch.map((merch) => (
                         <div key={merch.id} className="col-lg-2 col-md-4 col-sm-3">
+                            <Link to={`/K-uniFanse-Vite/home/shop/${merch.id}`}>
                             <Card className="border-0 rounded-5 shadow-sm">
                                 <Card.Title className="px-4 pt-2">
                                     {merch.merchandise_name}
                                 </Card.Title>
-                                <Link to={`/home/shop/${merch.id}`}>
+                                
                                     <Card.Img
                                         src={`${image_url}/${merch.filename}`}
                                         alt={merch.merchandise_name}
                                         className="px-4 aspect-ratio-box"
                                         // fluid="true"
                                     />
-                                </Link>
+                                
                                 <Card.Body className="d-flex justify-content-between p-4">
                                     <Card.Text>€{merch.price}</Card.Text>
                                 </Card.Body>
                             </Card>
+                            </Link>
                         </div>
                     ))}
                 </Row>

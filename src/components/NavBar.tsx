@@ -14,7 +14,7 @@ export default function NavBar() {
     >
       <Container fluid>
         <Navbar.Brand>
-          <Link to="/" className="navbar-brand fs-1 ms-2">
+          <Link to="/K-uniFanse-Vite/home/shop" className="navbar-brand fs-1 ms-2">
             K-uniFanse
           </Link>
         </Navbar.Brand>

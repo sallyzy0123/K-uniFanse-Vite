@@ -18,6 +18,7 @@ export default function Profile () {
     const [showModal, setShowModal] = useState(false);
     const { getMerchandisesByUser } = useMerchandise();
     const [ownerMerch, setOwnerMerch] = useState<Merchandise[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchMerchByOwner = async () => {
         try {
@@ -26,6 +27,8 @@ export default function Profile () {
             setOwnerMerch(merchResponse);
         } catch (error) {
             console.error("fetchMerchByOwner: ", error);
+        }  finally {
+            setLoading(false);
         }
     };
 
@@ -34,11 +37,11 @@ export default function Profile () {
     }, []);
 
     const handleAddNewMerch = () => {
-        navigate("/home/newMerchandise")
+        navigate("/K-uniFanse-Vite/home/newMerchandise")
     };
 
     const handleEditAccount = () => {
-        navigate("/home/profile/edit");
+        navigate("/K-uniFanse-Vite/home/profile/edit");
     };
 
     const handleDeleteAccount = async () => {
@@ -49,7 +52,7 @@ export default function Profile () {
             if (userResponse.message === "User deleted") {
                 await localStorage.removeItem("userToken");
                 setIsLoggedIn(false);
-                navigate("/login");
+                navigate("/K-uniFanse-Vite/");
             }
         } catch (error) {
             console.error("deleteUser: ", error);
@@ -62,15 +65,15 @@ export default function Profile () {
         setIsLoggedIn(false);
         setShowModal(true);
         setTimeout(() => {
-            navigate("/login"); 
+            navigate("/K-uniFanse-Vite/"); 
         }, 1000);
     };
 
     return (
-        <Container fluid
-            className="d-flex flex-row justify-content-around align-items-center fw-bold my-5 "
+        <Container
+            className="lg-8 md-8 sm-8 d-flex flex-row justify-content-around align-items-center fw-bold my-5 "
         >
-            <Row md={8} lg={8} className="bg-light text-black p-5 rounded-5 gap-3">
+            <Row className="bg-light text-black p-5 rounded-5 gap-3">
                 <Col className="d-flex justify-content-between gap-5">
                     <div>
                         <svg
@@ -100,28 +103,35 @@ export default function Profile () {
                     </Col>
                 </Row>
                 <hr style={{ backgroundColor: "black", height: 5 }}/>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
                 <Row>
                     {ownerMerch.map((merch) => (
                         <div key={merch.id} className="col-lg-2 col-md-4 col-sm-3">
+                            <Link to={`/K-uniFanse-Vite/home/shop/${merch.id}`}>
                             <Card className="border-0 rounded-5 shadow-sm">
                                 <Card.Title className="px-4 pt-2">
                                     {merch.merchandise_name}
                                 </Card.Title>
-                                <Link to={`/home/shop/${merch.id}`}>
+                                
                                     <Card.Img
                                         src={`${image_url}/${merch.filename}`}
                                         alt={merch.merchandise_name}
                                         className="px-4 aspect-ratio-box"
                                         // fluid="true"
                                     />
-                                </Link>
+                                
                                 <Card.Body className="d-flex justify-content-between p-4">
                                     <Card.Text>€{merch.price}</Card.Text>
                                 </Card.Body>
                             </Card>
+                            </Link>
                         </div>
                     ))}
                 </Row>
+                )}
+                
             </Row>
             {showModal && <MyModal text="Log out!" />}
         </Container>

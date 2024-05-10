@@ -100,7 +100,7 @@ const useMerchandise = () => {
         {},
         true
       );
-      console.log("response,", merchandiseResponse.merchandisesByOwner);
+      // console.log("response,", merchandiseResponse.merchandisesByOwner);
       return merchandiseResponse.merchandisesByOwner;
     } catch (error) {
       console.error("getMerchandiseByUser failed", error);

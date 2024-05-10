@@ -40,7 +40,7 @@ function LoginBox() {
       saveToken(loginToken);
       setShowModal(true);
       setTimeout(() => {
-        navigate("/home/shop");
+        navigate("/K-uniFanse-Vite/home/shop");
       }, 1000);
       console.log("Login successful:", loginResponse);
     } catch (error) {
@@ -76,7 +76,7 @@ function LoginBox() {
         <Form.Text className="d-inline-flex align-items-center">
           No account yet? &nbsp;
           <Link
-            to="/register"
+            to="/K-uniFanse-Vite/register"
             className="text-decoration-none text-purple fw-bold"
           >
             Register

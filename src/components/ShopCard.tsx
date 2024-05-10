@@ -34,22 +34,21 @@ export default function ShopCard() {
         <div className="shop-container d-flex flex-row gap-5 flex-wrap justify-content-around pt-3">
             {merchandises.map((merchandise) => (
                 <div key={merchandise.id} className="col-lg-2 col-md-4 col-sm-3">
-                <Card className="border-0 rounded-5 shadow-sm">
-                    <Card.Title className="px-4 pt-2">
-                        {merchandise.merchandise_name}
-                    </Card.Title>
-                    <Link to={`/home/shop/${merchandise.id}`}>
-                        <Card.Img
-                            src={`${image_url}/${merchandise.filename}`}
-                            alt={merchandise.merchandise_name}
-                            className="px-4 aspect-ratio-box"
-                            // fluid="true"
-                        />
+                    <Link to={`/K-uniFanse-Vite/home/shop/${merchandise.id}`}>
+                        <Card className="border-0 rounded-5 shadow-sm">
+                            <Card.Title className="px-4 pt-2">
+                                {merchandise.merchandise_name}
+                            </Card.Title>
+                            <Card.Img
+                                src={`${image_url}/${merchandise.filename}`}
+                                alt={merchandise.merchandise_name}
+                                className="px-4 aspect-ratio-box"
+                            />
+                            <Card.Body className="d-flex justify-content-between p-4">
+                                <Card.Text>€{merchandise.price}</Card.Text>
+                            </Card.Body>
+                        </Card>
                     </Link>
-                    <Card.Body className="d-flex justify-content-between p-4">
-                        <Card.Text>€{merchandise.price}</Card.Text>
-                    </Card.Body>
-                </Card>
                 </div>
             ))}
         </div>

@@ -49,15 +49,11 @@ const router = createBrowserRouter([
         loader: SingleLoader,
       },
       {
-<<<<<<< HEAD
         path: "shop/message/:chatId",
         element: <MessageBox />,
       },
       {
-        path: "profile",
-=======
         path: "/K-uniFanse-Vite/home/profile",
->>>>>>> main
         element: <Profile />,
       },
       {

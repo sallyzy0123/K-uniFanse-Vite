@@ -33,5 +33,13 @@ declare type Message = {
     chatId: string;
     senderId: string;
     text: string;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+declare type MessageInput = {
+    chatId: string;
+    senderId: string;
+    text: string;
     timestamp: Date;
 };

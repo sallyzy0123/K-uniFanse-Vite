@@ -3,18 +3,59 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import { useParams } from "react-router-dom";
 import {useUser} from "../hooks/ApiHooks";
-import {Row} from "react-bootstrap";
+import { Row, Form, Button } from "react-bootstrap";
 import {useChat, useMessage} from "../hooks/chatHooks";
 import {MainContext} from "../contexts/MainContext";
+import '../css/Message.css';
+import moment from 'moment';
+import { io, Socket } from "socket.io-client";
+import { ClientToServerEvents, ServerToClientEvents } from '../types/Socket';
+
 
 function MessageBox () {
     const {chatId} = useParams();
     const {getUserById} = useUser();
-    // console.log("chatId in MessageBox: ", chatId);
+    console.log("chatId in MessageBox: ", chatId);
     const [owner, setOwner] = useState<User | null>(null);
-    const {getMessagesByChatId} = useMessage();
+    const {getMessagesByChatId, createMessage} = useMessage();
     const {getChatRoomById} = useChat();
     const {user} = useContext(MainContext);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [newMessage, setNewMessage] = useState("");
+
+    useEffect(() => {
+        const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+            import.meta.env.VITE_SOCKET_URL
+        );
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [messages]);
+    
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (!user) {
+                console.error("User not authenticated");
+                return;
+            }
+
+            const messageData: MessageInput = {
+                chatId: chatId as string,
+                senderId: user.id,
+                text: newMessage,
+                timestamp: new Date(),
+            };
+
+            await createMessage(messageData); // Call the function to send the message
+            // Clear the input field after sending the message
+            setNewMessage("");
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
+    };
 
     const fetchUserById = async (ownerId: string): Promise<User | null> => {
         try {
@@ -48,6 +89,10 @@ function MessageBox () {
         try {
             const messages = await getMessagesByChatId(chatId as string);
             console.log("messages in fetchHistory: ", messages);
+            if (!messages) {
+                return;
+            }
+            setMessages(messages);
         } catch (error) {
             console.error("fetchHistory error: ", error);
         }
@@ -57,14 +102,12 @@ function MessageBox () {
     useEffect(() => {
         fetchReceiver();
         fetchHistory();
-        // fetchUserById();
-    }, [])
+    }, [newMessage])
 
     return (
         <Container fluid className="d-flex flex-row justify-content-around align-items-center fw-bold my-5">
             <Col md={8} lg={8} className="bg-light text-black p-5 rounded-5">
                 {owner ? (
-                    // <Row className="align-items-center">
                     <>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +128,32 @@ function MessageBox () {
                     <p>Loading...</p>
                 )}
                 <hr style={{ backgroundColor: "black", height: 5 }}/>
+                <Row className="gap-3 p-3">
+                    {messages.map((message) => (
+                        <Row
+                            className={`row-lg-auto rounded-5 ${
+                                message.senderId === user?.id ? "text-end align-items-center message-right" : "message-left"
+                            }`}
+                            key={message.id}
+                        >
+                            <p className="m-auto">{message.text}</p>
+                            <span>{moment(message.createdAt).calendar()}</span>
+                        </Row>
+                    ))}
+                </Row>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3" controlId="formBasicMessage">
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter your message"
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">
+                    Send
+                  </Button>
+                </Form>
             </Col>
         </Container>
     )

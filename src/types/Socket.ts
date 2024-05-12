@@ -6,6 +6,7 @@ type ServerToClientEvents = {
   
 type ClientToServerEvents = {
     update: (message: string) => void;
+    addNewUser: (userId: string) => void;
 }
   
 export type {ServerToClientEvents, ClientToServerEvents};

@@ -41,14 +41,24 @@ const useChat = () => {
 const useMessage = () => {
     const getMessagesByChatId = async (chatId: string) => {
         try {
-            const response = await doFetch<Message>(`/messages/${chatId}`);
+            const response = await doFetch<Message[]>(`/messages/${chatId}`);
             return response.data;
         } catch (error) {
             console.error("getMessages error: ", error);
         };
     };
 
-    return { getMessagesByChatId };
+    const createMessage = async (messageData: Partial<Message>) => {
+        try {
+            const response = await doFetch.post('/messages',messageData);
+            console.log('response in createMessage: ', response.data);
+            return response.data;
+        } catch (error) {
+            console.error("createMessage error: ", error);
+        }
+    };
+
+    return { getMessagesByChatId, createMessage };
 };
 
 export { useChat, useMessage };

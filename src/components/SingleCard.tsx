@@ -39,7 +39,7 @@ const { merchandise } = useLoaderData() as LoaderData;
         const chatResponse = await createChatRoom((user as User).id, merchandise.owner.id);
         if (chatResponse._id) {
             const chatId = chatResponse._id;
-            navigate(`/home/shop/message/${chatId}`);
+            navigate(`/K-uniFanse-Vite/home/shop/message/${chatId}`);
         }
     } catch (error) {
         console.error("createChatRoom failed: ", error);
